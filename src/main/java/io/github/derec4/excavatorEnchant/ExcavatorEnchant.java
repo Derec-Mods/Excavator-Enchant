@@ -1,8 +1,10 @@
 package io.github.derec4.excavatorEnchant;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public final class ExcavatorEnchant extends JavaPlugin {
 
@@ -11,12 +13,14 @@ public final class ExcavatorEnchant extends JavaPlugin {
         // Plugin startup logic
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-        Bukkit.getLogger().info("");
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "  |_______|                             " +
-                "  ");
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "  | Derex |     Excavator Enchant v" + getDescription().getVersion());
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "  |_______|     Running on " + Bukkit.getName() + " - " + Bukkit.getVersion());
-        Bukkit.getLogger().info("");
+        // Use Adventure Components for console output (preferred on Paper)
+        ConsoleCommandSender console = Bukkit.getConsoleSender();
+        String version = getDescription().getVersion();
+        console.sendMessage(Component.text("") );
+        console.sendMessage(Component.text("  |_______|                             ").color(NamedTextColor.GREEN));
+        console.sendMessage(Component.text("  | Derex |     Excavator Enchant v" + version).color(NamedTextColor.GREEN));
+        console.sendMessage(Component.text("  |_______|     Running on " + Bukkit.getName() + " - " + Bukkit.getVersion()).color(NamedTextColor.GREEN));
+        console.sendMessage(Component.text("") );
     }
 
     @Override
