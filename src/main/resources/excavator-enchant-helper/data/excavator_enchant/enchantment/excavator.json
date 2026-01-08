@@ -1,0 +1,20 @@
+{
+  "description": {
+    "translate": "enchantment.excavator",
+    "fallback": "Excavator"
+  },
+  "supported_items": "#minecraft:pickaxes",
+  "primary_items": "#minecraft:pickaxes",
+  "weight": 5,
+  "max_level": 3,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 8
+  },
+  "max_cost": {
+    "base": 3,
+    "per_level_above_first": 8
+  },
+  "anvil_cost": 2,
+  "slots": ["hand"]
+}

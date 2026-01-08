@@ -1,0 +1,9 @@
+name: ExcavatorEnchant
+version: '1.0.0.0'
+main: io.github.derec4.excavatorEnchant.ExcavatorEnchant
+api-version: '1.21'
+prefix: DerexXD
+authors: [ DerexXD ]
+description:
+  Simple: Adds an animation while the night is skipped by players sleeping, making things really more immersive!
+website: https://github.com/DereC4
