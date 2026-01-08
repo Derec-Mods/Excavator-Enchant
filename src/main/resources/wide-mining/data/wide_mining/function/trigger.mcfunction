@@ -1,1 +1,0 @@
-scoreboard players set @s wide_mining.enchantment 1
