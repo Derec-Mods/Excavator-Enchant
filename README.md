@@ -1,0 +1,1 @@
+Inspired by SushiWaUmai and the Explosive Pickaxe from Slimefun, and due to popular request by players 1bmm and Ky_dotL who used these tools a lot to make impressive tunnel networks on our COVID server 5 years ago, affectionately dubbed "derex smp".
