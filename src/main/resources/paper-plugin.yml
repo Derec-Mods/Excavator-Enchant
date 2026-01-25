@@ -4,6 +4,5 @@ main: io.github.derec4.excavatorEnchant.ExcavatorEnchant
 api-version: '1.21'
 prefix: DerexXD
 authors: [ DerexXD ]
-description:
-  Simple: New pickaxe enchant to mine larger tunnels!
+description: New pickaxe enchant to mine larger tunnels!
 website: https://github.com/DereC4
