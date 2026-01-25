@@ -6,3 +6,4 @@ prefix: DerexXD
 authors: [ DerexXD ]
 description: New pickaxe enchant to mine larger tunnels!
 website: https://github.com/DereC4
+bootstrapper: io.github.derec4.excavatorEnchant.PluginBootstrap
