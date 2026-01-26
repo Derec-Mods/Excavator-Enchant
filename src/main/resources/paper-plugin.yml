@@ -1,5 +1,5 @@
 name: ExcavatorEnchant
-version: '1.0.0.0'
+version: '${version}'
 main: io.github.derec4.excavatorEnchant.ExcavatorEnchant
 api-version: '1.21'
 prefix: DerexXD
