@@ -1,6 +1,8 @@
 package io.github.derec4.excavatorEnchant;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,9 +19,16 @@ public class BlockBreakListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        
+        NamespacedKey key = new NamespacedKey("excavator_enchant_helper", "excavator");
+        Enchantment excavatorEnchant = Registry.ENCHANTMENT.get(key);
+
+
         if (!isPickaxe(item.getType())) return;
-        if (!item.containsEnchantment(Enchantment.SILK_TOUCH)) return;
+        assert excavatorEnchant != null;
+        if (!item.containsEnchantment(excavatorEnchant)) {
+            System.out.println("BREAKPOINT THREE");
+            return;
+        }
         
         Block origin = event.getBlock();
         Vector direction = player.getLocation().getDirection().normalize();
