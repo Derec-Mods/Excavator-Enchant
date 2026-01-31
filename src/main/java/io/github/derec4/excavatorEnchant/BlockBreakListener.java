@@ -22,8 +22,21 @@ public class BlockBreakListener implements Listener {
         NamespacedKey key = new NamespacedKey("excavator_enchant_helper", "excavator");
         Enchantment excavatorEnchant = Registry.ENCHANTMENT.get(key);
 
+        if (excavatorEnchant == null) {
+            System.out.println("ERROR: Excavator enchantment not found in registry!");
+            System.out.println("Available enchantments: " + Registry.ENCHANTMENT.stream()
+                    .map(e -> e.getKey().toString())
+                    .filter(s -> s.contains("excavator"))
+                    .toList());
+            return;
+        }
+
+        System.out.println("Found enchantment: " + excavatorEnchant.getKey());
+        System.out.println("Item enchantments: " + item.getEnchantments().keySet());
+
 
         if (!isPickaxe(item.getType())) return;
+
         assert excavatorEnchant != null;
         if (!item.containsEnchantment(excavatorEnchant)) {
             System.out.println("BREAKPOINT THREE");
