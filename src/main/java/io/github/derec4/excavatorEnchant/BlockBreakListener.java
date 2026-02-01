@@ -39,7 +39,7 @@ public class BlockBreakListener implements Listener {
 
         assert excavatorEnchant != null;
         if (!item.containsEnchantment(excavatorEnchant)) {
-            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
+//            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
             return;
         }
         
