@@ -1,5 +1,6 @@
 package io.github.derec4.excavatorEnchant;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -19,27 +20,26 @@ public class BlockBreakListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-        NamespacedKey key = new NamespacedKey("excavator_enchant_helper", "excavator");
+
+        if (item == null || item.getType() == Material.AIR) return;
+
+        NamespacedKey key = new NamespacedKey("excavator_enchant", "excavator");
         Enchantment excavatorEnchant = Registry.ENCHANTMENT.get(key);
 
         if (excavatorEnchant == null) {
-            System.out.println("ERROR: Excavator enchantment not found in registry!");
-            System.out.println("Available enchantments: " + Registry.ENCHANTMENT.stream()
+            Bukkit.getConsoleSender().sendMessage("ERROR: Excavator enchantment not found in registry!");
+            Bukkit.getConsoleSender().sendMessage("Available excavator enchants: " + Registry.ENCHANTMENT.stream()
                     .map(e -> e.getKey().toString())
                     .filter(s -> s.contains("excavator"))
                     .toList());
             return;
         }
 
-        System.out.println("Found enchantment: " + excavatorEnchant.getKey());
-        System.out.println("Item enchantments: " + item.getEnchantments().keySet());
-
-
         if (!isPickaxe(item.getType())) return;
 
         assert excavatorEnchant != null;
         if (!item.containsEnchantment(excavatorEnchant)) {
-            System.out.println("BREAKPOINT THREE");
+            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
             return;
         }
         
