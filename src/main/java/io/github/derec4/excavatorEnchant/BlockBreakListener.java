@@ -48,6 +48,7 @@ public class BlockBreakListener implements Listener {
 
         for (Block target : findBlocks(origin)) {
             if (target.getType().isAir()) continue;
+            if (target.isLiquid()) continue;
             if (!target.isPreferredTool(item)) continue;
 
             // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
