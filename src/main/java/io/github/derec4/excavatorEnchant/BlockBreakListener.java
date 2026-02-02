@@ -1,6 +1,7 @@
 package io.github.derec4.excavatorEnchant;
 
 import io.github.derec4.excavatorEnchant.utils.BlockUtils;
+import io.github.derec4.excavatorEnchant.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -12,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 
 import java.util.Collection;
 
@@ -37,9 +37,8 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (!isPickaxe(item.getType())) return;
+        if (!ItemUtils.isPickaxe(item.getType())) return;
 
-        assert excavatorEnchant != null;
         if (!item.containsEnchantment(excavatorEnchant)) {
 //            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
             return;
@@ -65,27 +64,7 @@ public class BlockBreakListener implements Listener {
                     target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
                 }
             });
-            damageItem(item, player);
-        }
-    }
-
-    private boolean isPickaxe(Material material) {
-        return material == Material.WOODEN_PICKAXE || material == Material.STONE_PICKAXE || 
-               material == Material.IRON_PICKAXE || material == Material.GOLDEN_PICKAXE || 
-               material == Material.DIAMOND_PICKAXE || material == Material.NETHERITE_PICKAXE;
-    }
-    
-
-    private void damageItem(ItemStack item, Player player) {
-        if (!(item.getItemMeta() instanceof Damageable)) return;
-        
-        Damageable meta = (Damageable) item.getItemMeta();
-        meta.setDamage(meta.getDamage() + 1);
-        item.setItemMeta(meta);
-        
-        if (meta.getDamage() >= item.getType().getMaxDurability()) {
-            item.setAmount(0);
-            player.updateInventory();
+            ItemUtils.damageItem(item, player);
         }
     }
 }
