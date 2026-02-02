@@ -65,8 +65,13 @@ public class BlockBreakListener implements Listener {
         }
     }
 
+    /**
+     * Based on Slimefun's ExplosiveTool block finding algorithm
+     * @author TheBusyBiscuit
+     */
     private Collection<Block> findBlocks(Block b) {
         Collection<Block> blocks = new java.util.ArrayList<>(26);
+        // preset arraylist size 26, (3 * 9 - 1)
 
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
