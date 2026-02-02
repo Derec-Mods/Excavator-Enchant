@@ -14,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.util.Vector;
 
+import java.util.Collection;
+
 public class BlockBreakListener implements Listener {
 
     @EventHandler
@@ -57,8 +59,18 @@ public class BlockBreakListener implements Listener {
                     
                     if (target.getType().isAir()) continue;
                     if (!target.isPreferredTool(item)) continue;
-                    
-                    target.breakNaturally(item);
+
+                    // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
+                    Collection<ItemStack> drops = target.getDrops(item, player);
+                    target.breakNaturally();
+                    drops.forEach(d -> {
+                        ItemStack dropCopy = d.clone();
+                        int newAmount = dropCopy.getAmount() - 1;
+                        if (newAmount > 0) {
+                            dropCopy.setAmount(newAmount);
+                            target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
+                        }
+                    });
                     damageItem(item, player);
                 }
             }
