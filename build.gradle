@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'io.github.derec4'
-version = '1.0.1.0'
+version = '1.0.2.0'
 
 repositories {
     mavenCentral()
@@ -51,5 +51,8 @@ processResources {
     filteringCharset 'UTF-8'
     filesMatching('paper-plugin.yml') {
         expand props
+    }
+    filesMatching('plugin.yml') {
+        expand('version': project.version)
     }
 }
