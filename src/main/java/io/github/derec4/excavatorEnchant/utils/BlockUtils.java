@@ -11,9 +11,9 @@ public class BlockUtils {
      * Finds all blocks in a 3x3x3 area around the given block, excluding the center block.
      * Based on Slimefun's ExplosiveTool block finding algorithm.
      *
-     * @author TheBusyBiscuit
      * @param b The center block
      * @return A collection of blocks surrounding the center block
+     * @author TheBusyBiscuit
      */
     public static Collection<Block> findBlocks(Block b) {
         Collection<Block> blocks = new ArrayList<>(26);

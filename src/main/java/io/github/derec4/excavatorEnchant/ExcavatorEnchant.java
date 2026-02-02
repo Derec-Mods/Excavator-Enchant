@@ -1,17 +1,10 @@
 package io.github.derec4.excavatorEnchant;
 
-import io.papermc.paper.datapack.Datapack;
-import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
-import io.papermc.paper.plugin.lifecycle.event.LifecycleEventOwner;
-import io.papermc.paper.plugin.lifecycle.event.handler.configuration.PrioritizedLifecycleEventHandlerConfiguration;
-import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import org.apache.maven.model.InputLocation;
-import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ExcavatorEnchant extends JavaPlugin {
 
@@ -24,11 +17,11 @@ public final class ExcavatorEnchant extends JavaPlugin {
 
         ConsoleCommandSender console = Bukkit.getConsoleSender();
         String version = getDescription().getVersion();
-        console.sendMessage(Component.text("") );
+        console.sendMessage(Component.text(""));
         console.sendMessage(Component.text("  |_______|                             ").color(NamedTextColor.GREEN));
         console.sendMessage(Component.text("  | Derex |     Excavator Enchant v" + version).color(NamedTextColor.GREEN));
         console.sendMessage(Component.text("  |_______|     Running on " + Bukkit.getName() + " - " + Bukkit.getVersion()).color(NamedTextColor.GREEN));
-        console.sendMessage(Component.text("") );
+        console.sendMessage(Component.text(""));
     }
 
     @Override

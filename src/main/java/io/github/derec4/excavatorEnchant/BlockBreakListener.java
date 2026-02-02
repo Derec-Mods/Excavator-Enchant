@@ -23,7 +23,9 @@ public class BlockBreakListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (item == null || item.getType() == Material.AIR) return;
+        if (item == null || item.getType() == Material.AIR) {
+            return;
+        }
 
         NamespacedKey key = new NamespacedKey("excavator_enchant", "excavator");
         Enchantment excavatorEnchant = Registry.ENCHANTMENT.get(key);
@@ -37,19 +39,27 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (!ItemUtils.isPickaxe(item.getType())) return;
+        if (!ItemUtils.isPickaxe(item.getType())) {
+            return;
+        }
 
         if (!item.containsEnchantment(excavatorEnchant)) {
 //            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
             return;
         }
-        
+
         Block origin = event.getBlock();
 
         for (Block target : BlockUtils.findBlocks(origin)) {
-            if (target.getType().isAir()) continue;
-            if (target.isLiquid()) continue;
-            if (!target.isPreferredTool(item)) continue;
+            if (target.getType().isAir()) {
+                continue;
+            }
+            if (target.isLiquid()) {
+                continue;
+            }
+            if (!target.isPreferredTool(item)) {
+                continue;
+            }
 
             // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
             Collection<ItemStack> drops = target.getDrops(item, player);
