@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.util.Vector;
 
 import java.util.Collection;
 
@@ -46,35 +45,43 @@ public class BlockBreakListener implements Listener {
         }
         
         Block origin = event.getBlock();
-        Vector direction = player.getLocation().getDirection().normalize();
-        Vector primary = getPrimaryAxis(direction);
-        
+
+        for (Block target : findBlocks(origin)) {
+            if (target.getType().isAir()) continue;
+            if (!target.isPreferredTool(item)) continue;
+
+            // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
+            Collection<ItemStack> drops = target.getDrops(item, player);
+            target.breakNaturally();
+            drops.forEach(d -> {
+                ItemStack dropCopy = d.clone();
+                int newAmount = dropCopy.getAmount() - 1;
+                if (newAmount > 0) {
+                    dropCopy.setAmount(newAmount);
+                    target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
+                }
+            });
+            damageItem(item, player);
+        }
+    }
+
+    private Collection<Block> findBlocks(Block b) {
+        Collection<Block> blocks = new java.util.ArrayList<>(26);
+
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
-                    if (x == 0 && y == 0 && z == 0) continue;
-                    
-                    Vector offset = getOffset(primary, x, y, z);
-                    Block target = origin.getRelative(offset.getBlockX(), offset.getBlockY(), offset.getBlockZ());
-                    
-                    if (target.getType().isAir()) continue;
-                    if (!target.isPreferredTool(item)) continue;
+                    // We can skip the center block since that will break as usual
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
 
-                    // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
-                    Collection<ItemStack> drops = target.getDrops(item, player);
-                    target.breakNaturally();
-                    drops.forEach(d -> {
-                        ItemStack dropCopy = d.clone();
-                        int newAmount = dropCopy.getAmount() - 1;
-                        if (newAmount > 0) {
-                            dropCopy.setAmount(newAmount);
-                            target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
-                        }
-                    });
-                    damageItem(item, player);
+                    blocks.add(b.getRelative(x, y, z));
                 }
             }
         }
+
+        return blocks;
     }
     
     private boolean isPickaxe(Material material) {
@@ -83,22 +90,7 @@ public class BlockBreakListener implements Listener {
                material == Material.DIAMOND_PICKAXE || material == Material.NETHERITE_PICKAXE;
     }
     
-    private Vector getPrimaryAxis(Vector direction) {
-        double absX = Math.abs(direction.getX());
-        double absY = Math.abs(direction.getY());
-        double absZ = Math.abs(direction.getZ());
-        
-        if (absX > absY && absX > absZ) return new Vector(Math.signum(direction.getX()), 0, 0);
-        if (absY > absZ) return new Vector(0, Math.signum(direction.getY()), 0);
-        return new Vector(0, 0, Math.signum(direction.getZ()));
-    }
-    
-    private Vector getOffset(Vector primary, int x, int y, int z) {
-        if (primary.getY() != 0) return new Vector(x, (int)primary.getY() * z, y);
-        if (primary.getX() != 0) return new Vector((int)primary.getX() * z, y, x);
-        return new Vector(x, y, (int)primary.getZ() * z);
-    }
-    
+
     private void damageItem(ItemStack item, Player player) {
         if (!(item.getItemMeta() instanceof Damageable)) return;
         
