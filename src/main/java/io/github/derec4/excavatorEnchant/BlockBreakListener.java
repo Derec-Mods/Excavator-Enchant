@@ -1,5 +1,6 @@
 package io.github.derec4.excavatorEnchant;
 
+import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -46,13 +47,15 @@ public class BlockBreakListener implements Listener {
         
         Block origin = event.getBlock();
 
-        for (Block target : findBlocks(origin)) {
+        for (Block target : BlockUtils.findBlocks(origin)) {
             if (target.getType().isAir()) continue;
             if (target.isLiquid()) continue;
             if (!target.isPreferredTool(item)) continue;
 
             // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
             Collection<ItemStack> drops = target.getDrops(item, player);
+            // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
+            // vanilla as possible and gets credited to the player, increments their mining stats, etc.
             target.breakNaturally();
             drops.forEach(d -> {
                 ItemStack dropCopy = d.clone();
@@ -66,30 +69,6 @@ public class BlockBreakListener implements Listener {
         }
     }
 
-    /**
-     * Based on Slimefun's ExplosiveTool block finding algorithm
-     * @author TheBusyBiscuit
-     */
-    private Collection<Block> findBlocks(Block b) {
-        Collection<Block> blocks = new java.util.ArrayList<>(26);
-        // preset arraylist size 26, (3 * 9 - 1)
-
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                for (int z = -1; z <= 1; z++) {
-                    // We can skip the center block since that will break as usual
-                    if (x == 0 && y == 0 && z == 0) {
-                        continue;
-                    }
-
-                    blocks.add(b.getRelative(x, y, z));
-                }
-            }
-        }
-
-        return blocks;
-    }
-    
     private boolean isPickaxe(Material material) {
         return material == Material.WOODEN_PICKAXE || material == Material.STONE_PICKAXE || 
                material == Material.IRON_PICKAXE || material == Material.GOLDEN_PICKAXE || 
