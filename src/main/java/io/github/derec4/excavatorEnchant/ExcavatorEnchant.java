@@ -1,5 +1,6 @@
 package io.github.derec4.excavatorEnchant;
 
+import io.github.derec4.excavatorEnchant.listeners.BlockBreakListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;

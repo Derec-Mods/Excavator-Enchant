@@ -1,4 +1,4 @@
-package io.github.derec4.excavatorEnchant;
+package io.github.derec4.excavatorEnchant.listeners;
 
 import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import io.github.derec4.excavatorEnchant.utils.ItemUtils;
