@@ -1,7 +1,7 @@
 {
   "description": {
-    "translate": "enchantment.excavator",
-    "fallback": "Excavator"
+    "translate": "enchantment.excavating",
+    "fallback": "Excavating"
   },
   "supported_items": "#minecraft:pickaxes",
   "primary_items": "#minecraft:pickaxes",

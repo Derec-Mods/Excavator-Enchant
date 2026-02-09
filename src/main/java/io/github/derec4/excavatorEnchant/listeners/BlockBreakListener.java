@@ -27,14 +27,14 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        NamespacedKey key = new NamespacedKey("excavator_enchant", "excavator");
-        Enchantment excavatorEnchant = Registry.ENCHANTMENT.get(key);
+        NamespacedKey key = new NamespacedKey("excavator_enchant", "excavating");
+        Enchantment excavatingEnchant = Registry.ENCHANTMENT.get(key);
 
-        if (excavatorEnchant == null) {
-            Bukkit.getConsoleSender().sendMessage("ERROR: Excavator enchantment not found in registry!");
-            Bukkit.getConsoleSender().sendMessage("Available excavator enchants: " + Registry.ENCHANTMENT.stream()
+        if (excavatingEnchant == null) {
+            Bukkit.getConsoleSender().sendMessage("ERROR: excavating enchantment not found in registry!");
+            Bukkit.getConsoleSender().sendMessage("Available excavating enchants: " + Registry.ENCHANTMENT.stream()
                     .map(e -> e.getKey().toString())
-                    .filter(s -> s.contains("excavator"))
+                    .filter(s -> s.contains("excavating"))
                     .toList());
             return;
         }
@@ -43,7 +43,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (!item.containsEnchantment(excavatorEnchant)) {
+        if (!item.containsEnchantment(excavatingEnchant)) {
 //            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
             return;
         }
