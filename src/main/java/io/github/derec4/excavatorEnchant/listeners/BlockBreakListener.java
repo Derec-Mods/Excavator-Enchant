@@ -50,6 +50,7 @@ public class BlockBreakListener implements Listener {
 
         Block origin = event.getBlock();
 
+        int successfulBreaks = 0;
         for (Block target : BlockUtils.findBlocks(origin)) {
             if (target.getType().isAir()) {
                 continue;
@@ -74,7 +75,12 @@ public class BlockBreakListener implements Listener {
                     target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
                 }
             });
-            ItemUtils.damageItem(item, player);
+            successfulBreaks++;
+        }
+
+        // 2.9.2026 we will just apply the damage at the end, all at once
+        if (successfulBreaks > 0) {
+            ItemUtils.damageItem(item, player, successfulBreaks);
         }
     }
 }
