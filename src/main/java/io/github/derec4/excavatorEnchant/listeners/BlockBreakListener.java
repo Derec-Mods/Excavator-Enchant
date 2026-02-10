@@ -52,13 +52,14 @@ public class BlockBreakListener implements Listener {
 
         int successfulBreaks = 0;
         for (Block target : BlockUtils.findBlocks(origin)) {
-            if (target.getType().isAir()) {
+            if (target.getType().isAir() || target.isLiquid()) {
                 continue;
             }
-            if (target.isLiquid()) {
-                continue;
-            }
-            if (!target.isPreferredTool(item)) {
+
+            boolean isPreferred = target.isPreferredTool(item);
+            Bukkit.getConsoleSender().sendMessage("Block: " + target.getType() + " | isPreferredTool: " + isPreferred);
+
+            if (!isPreferred) {
                 continue;
             }
 
