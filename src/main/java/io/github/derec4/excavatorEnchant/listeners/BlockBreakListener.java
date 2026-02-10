@@ -11,16 +11,26 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BlockBreakListener implements Listener {
 
-    @EventHandler
+    // Track blocks being broken by the excavating enchant to prevent infinite recursion with our fake event
+    private final Set<Block> processingBlocks = new HashSet<>();
+
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event) {
+        if (processingBlocks.contains(event.getBlock())) {
+            return;
+        }
+
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
 
@@ -63,22 +73,37 @@ public class BlockBreakListener implements Listener {
                 continue;
             }
 
-            // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
-            Collection<ItemStack> drops = target.getDrops(item, player);
-            // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
-            // vanilla as possible and gets credited to the player, increments their mining stats, etc.
-            // Right now the durability counts work correctly at least, and drops are correct. But now need to check
-            // unbreaking and fortune calculations
-            target.breakNaturally();
-            drops.forEach(d -> {
-                ItemStack dropCopy = d.clone();
-                int newAmount = dropCopy.getAmount() - 1;
-                if (newAmount > 0) {
-                    dropCopy.setAmount(newAmount);
-                    target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
+            processingBlocks.add(target);
+
+            try {
+                // Trying to fake an event so coreprotect logs broken blocks
+                BlockBreakEvent fakeEvent = new BlockBreakEvent(target, player);
+                Bukkit.getPluginManager().callEvent(fakeEvent);
+
+                if (fakeEvent.isCancelled()) {
+                    continue;
                 }
-            });
-            successfulBreaks++;
+
+                // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
+                Collection<ItemStack> drops = target.getDrops(item, player);
+                // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
+                // vanilla as possible and gets credited to the player, increments their mining stats, etc.
+                // Right now the durability counts work correctly at least, and drops are correct. But now need to check
+                // unbreaking and fortune calculations
+                target.breakNaturally(item, true, true);
+                drops.forEach(d -> {
+                    ItemStack dropCopy = d.clone();
+                    int newAmount = dropCopy.getAmount() - 1;
+                    if (newAmount > 0) {
+                        dropCopy.setAmount(newAmount);
+                        target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
+                    }
+                });
+                successfulBreaks++;
+            } finally {
+                // Always remove from processing set, even if an exception occurs
+                processingBlocks.remove(target);
+            }
         }
 
         // 2.9.2026 we will just apply the damage at the end, all at once
