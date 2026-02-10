@@ -2,6 +2,7 @@ package io.github.derec4.excavatorEnchant.listeners;
 
 import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import io.github.derec4.excavatorEnchant.utils.ItemUtils;
+import io.github.derec4.excavatorEnchant.utils.TagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -40,29 +41,34 @@ public class BlockBreakListener implements Listener {
         }
 
         if (!item.containsEnchantment(excavatingEnchant)) {
-//            Bukkit.getConsoleSender().sendMessage("BREAKPOINT THREE");
             return;
         }
 
         Block origin = event.getBlock();
+        Material originType = origin.getType();
+
+        if (!TagUtils.isMiningStone(originType)) {
+            return;
+        }
 
         int successfulBreaks = 0;
+
         for (Block target : BlockUtils.findBlocks(origin)) {
             if (target.getType().isAir() || target.isLiquid()) {
                 continue;
             }
 
-//            boolean isPreferred = target.isPreferredTool(item);
-//            Bukkit.getConsoleSender().sendMessage("Block: " + target.getType() + " | isPreferredTool: " + isPreferred);
-//
-//            if (!isPreferred) {
-//                continue;
-//            }
+            // 2.9.2026 isPreferredTool does not work as I intended
+            if (!TagUtils.isMiningStone(target.getType())) {
+                continue;
+            }
 
             // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
             Collection<ItemStack> drops = target.getDrops(item, player);
             // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
             // vanilla as possible and gets credited to the player, increments their mining stats, etc.
+            // Right now the durability counts work correctly at least, and drops are correct. But now need to check
+            // unbreaking and fortune calculations
             target.breakNaturally();
             drops.forEach(d -> {
                 ItemStack dropCopy = d.clone();
