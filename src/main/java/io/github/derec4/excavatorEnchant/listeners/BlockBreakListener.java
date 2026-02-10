@@ -2,7 +2,6 @@ package io.github.derec4.excavatorEnchant.listeners;
 
 import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import io.github.derec4.excavatorEnchant.utils.ItemUtils;
-import io.github.derec4.excavatorEnchant.utils.TagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -24,7 +23,7 @@ public class BlockBreakListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (item == null || item.getType() == Material.AIR) {
+        if (item == null || item.getType() == Material.AIR || !ItemUtils.isPickaxe(item.getType())) {
             return;
         }
 
@@ -37,10 +36,6 @@ public class BlockBreakListener implements Listener {
                     .map(e -> e.getKey().toString())
                     .filter(s -> s.contains("excavating"))
                     .toList());
-            return;
-        }
-
-        if (!ItemUtils.isPickaxe(item.getType())) {
             return;
         }
 
@@ -57,10 +52,14 @@ public class BlockBreakListener implements Listener {
                 continue;
             }
 
-            if (!TagUtils.MINEABLE_PICKAXE.isTagged(target.getType())) {
-                continue;
-            }
+//            boolean isPreferred = target.isPreferredTool(item);
+//            Bukkit.getConsoleSender().sendMessage("Block: " + target.getType() + " | isPreferredTool: " + isPreferred);
+//
+//            if (!isPreferred) {
+//                continue;
+//            }
 
+            // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
             Collection<ItemStack> drops = target.getDrops(item, player);
             // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
             // vanilla as possible and gets credited to the player, increments their mining stats, etc.
