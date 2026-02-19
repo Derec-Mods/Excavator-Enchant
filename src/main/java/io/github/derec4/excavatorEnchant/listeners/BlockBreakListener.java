@@ -64,7 +64,7 @@ public class BlockBreakListener implements Listener {
         int successfulBreaks = 0;
 
         for (Block target : BlockUtils.findBlocks(origin)) {
-            if (target.getType().isAir() || target.isLiquid()) {
+            if (target.getType().isAir() || target.isLiquid() || target.getType().getHardness() < 0) {
                 continue;
             }
 
