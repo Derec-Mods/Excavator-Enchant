@@ -77,6 +77,7 @@ public class BlockBreakListener implements Listener {
 
             try {
                 // Trying to fake an event so coreprotect logs broken blocks
+                // 2.19.2026 it works!
                 BlockBreakEvent fakeEvent = new BlockBreakEvent(target, player);
                 Bukkit.getPluginManager().callEvent(fakeEvent);
 
