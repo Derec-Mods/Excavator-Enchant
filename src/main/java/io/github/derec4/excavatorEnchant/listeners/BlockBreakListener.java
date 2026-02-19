@@ -80,25 +80,25 @@ public class BlockBreakListener implements Listener {
                 BlockBreakEvent fakeEvent = new BlockBreakEvent(target, player);
                 Bukkit.getPluginManager().callEvent(fakeEvent);
 
-                if (fakeEvent.isCancelled()) {
-                    continue;
+                if (!fakeEvent.isCancelled()) {
+                    target.breakNaturally(item,true,true);
                 }
 
                 // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
-                Collection<ItemStack> drops = target.getDrops(item, player);
-                // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
-                // vanilla as possible and gets credited to the player, increments their mining stats, etc.
-                // Right now the durability counts work correctly at least, and drops are correct. But now need to check
-                // unbreaking and fortune calculations
-                target.breakNaturally(item, true, true);
-                drops.forEach(d -> {
-                    ItemStack dropCopy = d.clone();
-                    int newAmount = dropCopy.getAmount() - 1;
-                    if (newAmount > 0) {
-                        dropCopy.setAmount(newAmount);
-                        target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
-                    }
-                });
+//                Collection<ItemStack> drops = target.getDrops(item, player);
+//                // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
+//                // vanilla as possible and gets credited to the player, increments their mining stats, etc.
+//                // Right now the durability counts work correctly at least, and drops are correct. But now need to check
+//                // unbreaking and fortune calculations
+//                target.breakNaturally(item, true, true);
+//                drops.forEach(d -> {
+//                    ItemStack dropCopy = d.clone();
+//                    int newAmount = dropCopy.getAmount() - 1;
+//                    if (newAmount > 0) {
+//                        dropCopy.setAmount(newAmount);
+//                        target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
+//                    }
+//                });
                 successfulBreaks++;
             } finally {
                 // Always remove from processing set, even if an exception occurs
