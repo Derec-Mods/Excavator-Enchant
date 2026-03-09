@@ -32,9 +32,9 @@ public class BlockBreakListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
+        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
-        if (item == null || item.getType() == Material.AIR || !ItemUtils.isPickaxe(item.getType())) {
+        if (itemInMainHand == null || itemInMainHand.getType() == Material.AIR || !ItemUtils.isPickaxe(itemInMainHand.getType())) {
             return;
         }
 
@@ -50,7 +50,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (!item.containsEnchantment(excavatingEnchant)) {
+        if (!itemInMainHand.containsEnchantment(excavatingEnchant)) {
             return;
         }
 
@@ -87,7 +87,7 @@ public class BlockBreakListener implements Listener {
                 Bukkit.getPluginManager().callEvent(fakeEvent);
 
                 if (!fakeEvent.isCancelled()) {
-                    target.breakNaturally(item,true,true);
+                    target.breakNaturally(itemInMainHand,true,true);
                 }
 
                 // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
@@ -114,7 +114,8 @@ public class BlockBreakListener implements Listener {
 
         // 2.9.2026 we will just apply the damage at the end, all at once
         if (successfulBreaks > 0) {
-            ItemUtils.damageItem(item, player, successfulBreaks);
+            ItemUtils.damageItem(itemInMainHand, player, successfulBreaks);
+
         }
     }
 }
