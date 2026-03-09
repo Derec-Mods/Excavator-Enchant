@@ -32,7 +32,7 @@ public class TagUtils {
      * @return
      */
     public static boolean isNetherStone (Material material) {
-        return Tag.BASE_STONE_NETHER.isTagged(material) || Tag.NYLIUM.isTagged(material);
+        return Tag.BASE_STONE_NETHER.isTagged(material) || Tag.NYLIUM.isTagged(material) || material.equals(Material.MAGMA_BLOCK);
     }
 }
 
