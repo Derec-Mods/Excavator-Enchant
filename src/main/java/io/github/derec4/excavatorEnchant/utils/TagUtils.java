@@ -14,7 +14,10 @@ public class TagUtils {
      * @return
      */
     public static boolean isMiningStone (Material material) {
-        return Tag.BASE_STONE_OVERWORLD.isTagged(material) || Tag.TERRACOTTA.isTagged(material);
+        return Tag.BASE_STONE_OVERWORLD.isTagged(material) ||
+                Tag.TERRACOTTA.isTagged(material) ||
+                material.equals(Material.SANDSTONE) ||
+                material.equals(Material.RED_SANDSTONE);
     }
 
     /**
