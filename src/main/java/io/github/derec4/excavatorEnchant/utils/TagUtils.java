@@ -20,6 +20,18 @@ public class TagUtils {
                 material.equals(Material.RED_SANDSTONE);
     }
 
+    public static boolean isOre(Material material) {
+        return Tag.COAL_ORES.isTagged(material) ||
+                Tag.IRON_ORES.isTagged(material) ||
+                Tag.COPPER_ORES.isTagged(material) ||
+                Tag.GOLD_ORES.isTagged(material) ||
+                Tag.REDSTONE_ORES.isTagged(material) ||
+                Tag.LAPIS_ORES.isTagged(material) ||
+                Tag.DIAMOND_ORES.isTagged(material) ||
+                Tag.EMERALD_ORES.isTagged(material) ||
+                material == Material.NETHER_QUARTZ_ORE;
+    }
+
     /**
      * Meant for end stones, but right now there is only one, well, end stone lol
      * @param material
