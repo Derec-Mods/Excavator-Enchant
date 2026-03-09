@@ -57,7 +57,9 @@ public class BlockBreakListener implements Listener {
         Block origin = event.getBlock();
         Material originType = origin.getType();
 
-        if (!TagUtils.isMiningStone(originType)) {
+        // if mined block isnt even valid, dont start
+        if (!TagUtils.isMiningStone(originType) && !TagUtils.isOre(originType)
+                && !TagUtils.isEndStone(originType) && !TagUtils.isNetherStone(originType)) {
             return;
         }
 
@@ -69,7 +71,8 @@ public class BlockBreakListener implements Listener {
             }
 
             // 2.9.2026 isPreferredTool does not work as I intended
-            if (!TagUtils.isMiningStone(target.getType())) {
+            if (!TagUtils.isMiningStone(target.getType()) && !TagUtils.isOre(target.getType())
+                    && !TagUtils.isEndStone(target.getType()) && !TagUtils.isNetherStone(target.getType())) {
                 continue;
             }
 
