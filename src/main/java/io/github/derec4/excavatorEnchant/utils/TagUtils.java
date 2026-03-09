@@ -25,5 +25,14 @@ public class TagUtils {
     public static boolean isEndStone (Material material) {
         return material.equals(Material.END_STONE);
     }
+
+    /**
+     * Nether pickaxe blocks
+     * @param material
+     * @return
+     */
+    public static boolean isNetherStone (Material material) {
+        return Tag.BASE_STONE_NETHER.isTagged(material) || Tag.NYLIUM.isTagged(material);
+    }
 }
 
