@@ -16,5 +16,14 @@ public class TagUtils {
     public static boolean isMiningStone (Material material) {
         return Tag.BASE_STONE_OVERWORLD.isTagged(material) || Tag.TERRACOTTA.isTagged(material);
     }
+
+    /**
+     * Meant for end stones, but right now there is only one, well, end stone lol
+     * @param material
+     * @return
+     */
+    public static boolean isEndStone (Material material) {
+        return material.equals(Material.END_STONE);
+    }
 }
 
