@@ -71,8 +71,10 @@ public class BlockBreakListener implements Listener {
             }
 
             // 2.9.2026 isPreferredTool does not work as I intended
-            if (!TagUtils.isMiningStone(target.getType()) && !TagUtils.isOre(target.getType())
-                    && !TagUtils.isEndStone(target.getType()) && !TagUtils.isNetherStone(target.getType())) {
+            if (!TagUtils.isMiningStone(target.getType())
+                    && !TagUtils.isOre(target.getType())
+                    && !TagUtils.isEndStone(target.getType())
+                    && !TagUtils.isNetherStone(target.getType())) {
                 continue;
             }
 
