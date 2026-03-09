@@ -16,7 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,7 +86,7 @@ public class BlockBreakListener implements Listener {
                 Bukkit.getPluginManager().callEvent(fakeEvent);
 
                 if (!fakeEvent.isCancelled()) {
-                    target.breakNaturally(itemInMainHand,true,true);
+                    target.breakNaturally(itemInMainHand, true, true);
                 }
 
                 // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
@@ -111,10 +110,9 @@ public class BlockBreakListener implements Listener {
                 processingBlocks.remove(target);
             }
         }
-
         // 2.9.2026 we will just apply the damage at the end, all at once
-        if (successfulBreaks > 0) {
-            ItemUtils.damageItem(itemInMainHand, player, successfulBreaks);
+        for (int i = 0; i < successfulBreaks; i++) {
+            player.damageItemStack(itemInMainHand, 1);
 
         }
     }
