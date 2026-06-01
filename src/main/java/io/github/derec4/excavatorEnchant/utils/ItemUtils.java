@@ -13,6 +13,12 @@ public class ItemUtils {
                 material == Material.DIAMOND_PICKAXE || material == Material.NETHERITE_PICKAXE;
     }
 
+    public static boolean isShovel(Material material) {
+        return material == Material.WOODEN_SHOVEL || material == Material.STONE_SHOVEL ||
+                material == Material.IRON_SHOVEL || material == Material.GOLDEN_SHOVEL ||
+                material == Material.DIAMOND_SHOVEL || material == Material.NETHERITE_SHOVEL;
+    }
+
     public static void damageItem(ItemStack item, Player player) {
         damageItem(item, player, 1);
     }
@@ -31,5 +37,3 @@ public class ItemUtils {
         }
     }
 }
-
-

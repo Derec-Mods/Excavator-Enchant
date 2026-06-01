@@ -33,9 +33,12 @@ public class BlockBreakListener implements Listener {
         Player player = event.getPlayer();
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
-        if (itemInMainHand == null || itemInMainHand.getType() == Material.AIR || !ItemUtils.isPickaxe(itemInMainHand.getType())) {
+        if (itemInMainHand == null || itemInMainHand.getType() == Material.AIR ||
+                (!ItemUtils.isPickaxe(itemInMainHand.getType()) && !ItemUtils.isShovel(itemInMainHand.getType()))) {
             return;
         }
+
+        boolean usingShovel = ItemUtils.isShovel(itemInMainHand.getType());
 
         NamespacedKey key = new NamespacedKey("excavator_enchant", "excavating");
         Enchantment excavatingEnchant = Registry.ENCHANTMENT.get(key);
@@ -57,9 +60,15 @@ public class BlockBreakListener implements Listener {
         Material originType = origin.getType();
 
         // if mined block isnt even valid, dont start
-        if (!TagUtils.isMiningStone(originType) && !TagUtils.isOre(originType)
-                && !TagUtils.isEndStone(originType) && !TagUtils.isNetherStone(originType)) {
-            return;
+        if (usingShovel) {
+            if (!TagUtils.isShovelBlock(originType)) {
+                return;
+            }
+        } else {
+            if (!TagUtils.isMiningStone(originType) && !TagUtils.isOre(originType)
+                    && !TagUtils.isEndStone(originType) && !TagUtils.isNetherStone(originType)) {
+                return;
+            }
         }
 
         int successfulBreaks = 0;
@@ -70,11 +79,17 @@ public class BlockBreakListener implements Listener {
             }
 
             // 2.9.2026 isPreferredTool does not work as I intended
-            if (!TagUtils.isMiningStone(target.getType())
-                    && !TagUtils.isOre(target.getType())
-                    && !TagUtils.isEndStone(target.getType())
-                    && !TagUtils.isNetherStone(target.getType())) {
-                continue;
+            if (usingShovel) {
+                if (!TagUtils.isShovelBlock(target.getType())) {
+                    continue;
+                }
+            } else {
+                if (!TagUtils.isMiningStone(target.getType())
+                        && !TagUtils.isOre(target.getType())
+                        && !TagUtils.isEndStone(target.getType())
+                        && !TagUtils.isNetherStone(target.getType())) {
+                    continue;
+                }
             }
 
             processingBlocks.add(target);
@@ -89,6 +104,7 @@ public class BlockBreakListener implements Listener {
                     target.breakNaturally(itemInMainHand, true, true);
                 }
 
+                successfulBreaks++;
                 // CHECK IF THIS RESPECTS FORTUNE/SILK TOUCH
 //                Collection<ItemStack> drops = target.getDrops(item, player);
 //                // important for CoreProtect/ToolStats/other plugins, we want to ensure that our breaking event is as
@@ -104,7 +120,6 @@ public class BlockBreakListener implements Listener {
 //                        target.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), dropCopy);
 //                    }
 //                });
-                successfulBreaks++;
             } finally {
                 // Always remove from processing set, even if an exception occurs
                 processingBlocks.remove(target);
@@ -112,6 +127,7 @@ public class BlockBreakListener implements Listener {
         }
         // 2.9.2026 we will just apply the damage at the end, all at once
         for (int i = 0; i < successfulBreaks; i++) {
+            // 6.1.2026 i THINK we did this in a loop because it did Unbreaking enchant calculations
             player.damageItemStack(itemInMainHand, 1);
 
         }

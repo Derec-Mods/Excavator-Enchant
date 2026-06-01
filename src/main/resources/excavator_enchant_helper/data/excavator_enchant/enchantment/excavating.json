@@ -3,8 +3,8 @@
     "translate": "enchantment.excavating",
     "fallback": "Excavating"
   },
-  "supported_items": "#minecraft:pickaxes",
-  "primary_items": "#minecraft:pickaxes",
+  "supported_items": ["#minecraft:pickaxes", "#minecraft:shovels"],
+  "primary_items": ["#minecraft:pickaxes", "#minecraft:shovels"],
   "weight": 1,
   "max_level": 3,
   "min_cost": {
