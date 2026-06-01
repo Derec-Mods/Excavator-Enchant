@@ -4,6 +4,7 @@ import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import io.github.derec4.excavatorEnchant.utils.ItemUtils;
 import io.github.derec4.excavatorEnchant.utils.TagUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -31,6 +32,11 @@ public class BlockBreakListener implements Listener {
         }
 
         Player player = event.getPlayer();
+
+        if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE) {
+            return;
+        }
+
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
         if (itemInMainHand == null || itemInMainHand.getType() == Material.AIR ||
