@@ -32,6 +32,12 @@ public class TagUtils {
                 material == Material.NETHER_QUARTZ_ORE;
     }
 
+    public static boolean isShovelBlock(Material material) {
+        return Tag.DIRT.isTagged(material) ||
+                Tag.SAND.isTagged(material) ||
+                material == Material.GRAVEL;
+    }
+
     /**
      * Meant for end stones, but right now there is only one, well, end stone lol
      * @param material
