@@ -32,10 +32,24 @@ public class TagUtils {
                 material == Material.NETHER_QUARTZ_ORE;
     }
 
+    /**
+     * Blocks (in bulk) shovel mines
+     * @param material
+     * @return
+     */
     public static boolean isShovelBlock(Material material) {
         return Tag.DIRT.isTagged(material) ||
                 Tag.SAND.isTagged(material) ||
-                material == Material.GRAVEL;
+                material == Material.GRAVEL ||
+                material == Material.CLAY ||
+                material == Material.SOUL_SOIL ||
+                material == Material.SOUL_SAND ||
+                material == Material.MUD ||
+                material == Material.MYCELIUM ||
+                material == Material.GRASS_BLOCK ||
+                material == Material.PODZOL ||
+                material == Material.COARSE_DIRT ||
+                material == Material.ROOTED_DIRT;
     }
 
     /**
@@ -56,4 +70,3 @@ public class TagUtils {
         return Tag.BASE_STONE_NETHER.isTagged(material) || Tag.NYLIUM.isTagged(material) || material.equals(Material.MAGMA_BLOCK);
     }
 }
-
