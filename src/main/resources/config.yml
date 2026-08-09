@@ -1,3 +1,40 @@
 should-sneak: false
-blacklist:
-  - OBSIDIAN
+
+# Blocks the excavating enchant can break
+# tags = vanilla tag ids, see the minecraft; materials = Bukkit Material names (aka actual Blocks).
+excavatable-blocks:
+  pickaxe:
+    tags:
+      - minecraft:base_stone_overworld
+      - minecraft:terracotta
+      - minecraft:coal_ores
+      - minecraft:iron_ores
+      - minecraft:copper_ores
+      - minecraft:gold_ores
+      - minecraft:redstone_ores
+      - minecraft:lapis_ores
+      - minecraft:diamond_ores
+      - minecraft:emerald_ores
+      - minecraft:base_stone_nether
+      - minecraft:nylium
+    materials:
+      - SANDSTONE
+      - RED_SANDSTONE
+      - NETHER_QUARTZ_ORE
+      - END_STONE
+      - MAGMA_BLOCK
+  shovel:
+    tags:
+      - minecraft:dirt
+      - minecraft:sand
+    materials:
+      - GRAVEL
+      - CLAY
+      - SOUL_SOIL
+      - SOUL_SAND
+      - MUD
+      - MYCELIUM
+      - GRASS_BLOCK
+      - PODZOL
+      - COARSE_DIRT
+      - ROOTED_DIRT

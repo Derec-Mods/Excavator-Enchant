@@ -3,6 +3,9 @@ package io.github.derec4.excavatorEnchant.utils;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 
+/**
+ * This is now here for legacy reasons, we are going to move everything to the config
+ */
 public class TagUtils {
 
     public static final Tag<Material> MINEABLE_PICKAXE = Tag.MINEABLE_PICKAXE;
