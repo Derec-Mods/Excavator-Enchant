@@ -1,9 +1,9 @@
 package io.github.derec4.excavatorEnchant.listeners;
 
 import io.github.derec4.excavatorEnchant.ExcavatorEnchant;
+import io.github.derec4.excavatorEnchant.config.AllowlistReader;
 import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import io.github.derec4.excavatorEnchant.utils.ItemUtils;
-import io.github.derec4.excavatorEnchant.utils.TagUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -71,15 +71,9 @@ public class BlockBreakListener implements Listener {
         Material originType = origin.getType();
 
         // if mined block isnt even valid, dont start
-        if (usingShovel) {
-            if (!TagUtils.isShovelBlock(originType)) {
-                return;
-            }
-        } else {
-            if (!TagUtils.isMiningStone(originType) && !TagUtils.isOre(originType)
-                    && !TagUtils.isEndStone(originType) && !TagUtils.isNetherStone(originType)) {
-                return;
-            }
+        Set<Material> allowlist = usingShovel ? AllowlistReader.shovelBlocks : AllowlistReader.pickaxeBlocks;
+        if (!allowlist.contains(originType)) {
+            return;
         }
 
         int successfulBreaks = 0;
@@ -90,17 +84,8 @@ public class BlockBreakListener implements Listener {
             }
 
             // 2.9.2026 isPreferredTool does not work as I intended
-            if (usingShovel) {
-                if (!TagUtils.isShovelBlock(target.getType())) {
-                    continue;
-                }
-            } else {
-                if (!TagUtils.isMiningStone(target.getType())
-                        && !TagUtils.isOre(target.getType())
-                        && !TagUtils.isEndStone(target.getType())
-                        && !TagUtils.isNetherStone(target.getType())) {
-                    continue;
-                }
+            if (!allowlist.contains(target.getType())) {
+                continue;
             }
 
             processingBlocks.add(target);
