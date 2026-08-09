@@ -1,5 +1,6 @@
 package io.github.derec4.excavatorEnchant.listeners;
 
+import io.github.derec4.excavatorEnchant.ExcavatorEnchant;
 import io.github.derec4.excavatorEnchant.utils.BlockUtils;
 import io.github.derec4.excavatorEnchant.utils.ItemUtils;
 import io.github.derec4.excavatorEnchant.utils.TagUtils;
@@ -34,6 +35,10 @@ public class BlockBreakListener implements Listener {
         Player player = event.getPlayer();
 
         if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE) {
+            return;
+        }
+
+        if (ExcavatorEnchant.shouldSneak && !player.isSneaking()) {
             return;
         }
 

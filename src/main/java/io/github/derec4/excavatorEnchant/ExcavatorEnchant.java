@@ -9,11 +9,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ExcavatorEnchant extends JavaPlugin {
 
+    public static boolean shouldSneak;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
 
         saveDefaultConfig();
+        shouldSneak = getConfig().getBoolean("should-sneak");
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
 
         ConsoleCommandSender console = Bukkit.getConsoleSender();
