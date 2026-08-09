@@ -1,5 +1,6 @@
 package io.github.derec4.excavatorEnchant;
 
+import io.github.derec4.excavatorEnchant.config.AllowlistReader;
 import io.github.derec4.excavatorEnchant.listeners.BlockBreakListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -17,6 +18,7 @@ public final class ExcavatorEnchant extends JavaPlugin {
 
         saveDefaultConfig();
         shouldSneak = getConfig().getBoolean("should-sneak");
+        AllowlistReader.load(getConfig(), getLogger());
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
 
         ConsoleCommandSender console = Bukkit.getConsoleSender();
