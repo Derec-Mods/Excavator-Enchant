@@ -71,9 +71,14 @@ public class BlockBreakListener implements Listener {
         Material originType = origin.getType();
 
         // if mined block isnt even valid, dont start
-        Set<Material> allowlist = usingShovel ? AllowlistReader.shovelBlocks : AllowlistReader.pickaxeBlocks;
-        if (!allowlist.contains(originType)) {
-            return;
+        if (usingShovel) {
+            if (!AllowlistReader.shovelBlocks.contains(originType)) {
+                return;
+            }
+        } else {
+            if (!AllowlistReader.pickaxeBlocks.contains(originType)) {
+                return;
+            }
         }
 
         int successfulBreaks = 0;
@@ -84,8 +89,14 @@ public class BlockBreakListener implements Listener {
             }
 
             // 2.9.2026 isPreferredTool does not work as I intended
-            if (!allowlist.contains(target.getType())) {
-                continue;
+            if (usingShovel) {
+                if (!AllowlistReader.shovelBlocks.contains(target.getType())) {
+                    continue;
+                }
+            } else {
+                if (!AllowlistReader.pickaxeBlocks.contains(target.getType())) {
+                    continue;
+                }
             }
 
             processingBlocks.add(target);
